@@ -1,5 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
-
+let
+isDarwin = pkgs.stdenv.isDarwin;
+in
 pkgs.stdenv.mkDerivation rec { 
   name = "sofia-sip";
   version = "1.13.17";
@@ -13,6 +15,7 @@ pkgs.stdenv.mkDerivation rec {
 
   patchPhase = ''
     substituteInPlace Makefile.am --replace "/usr" ""
+  '' ++ pkgs.lib.optionalString isDarwin ''
     substituteInPlace autogen.sh --replace "glibtoolize" "libtoolize"
   '';
 
@@ -22,8 +25,9 @@ pkgs.stdenv.mkDerivation rec {
     pkgs.util-linux 
     pkgs.libtool 
     pkgs.libtiff
-    pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
     pkgs.openssl
+  ] ++ pkgs.lib.optionals isDarwin [
+    pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
   ];
 
   configureFlags = [

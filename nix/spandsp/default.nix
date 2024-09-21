@@ -24,9 +24,9 @@ pkgs.stdenv.mkDerivation rec {
   '';
 
   #CFLAGS="-g -ggdb --with-pic";
-
   patchPhase = ''
     substituteInPlace Makefile.am --replace "/usr" ""
+  '' ++ pkgs.lib.optionalString isDarwin ''
     substituteInPlace autogen.sh --replace "glibtoolize" "libtoolize"
   '';
 }

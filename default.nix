@@ -1,5 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
-
+let 
+isDarwin = pkgs.stdenv.isDarwin;
+in
 pkgs.stdenv.mkDerivation rec { 
   name = "freeswitch";
   version = "1.10.12";
@@ -27,7 +29,6 @@ pkgs.stdenv.mkDerivation rec {
     (pkgs.callPackage ./nix/sofia-sip { })
     (pkgs.callPackage ./nix/signalwire-c{ })
 
-
     # general
     pkgs.openssl
     pkgs.zlib
@@ -48,7 +49,9 @@ pkgs.stdenv.mkDerivation rec {
     pkgs.curl
     pkgs.ldns
     pkgs.python3
+    pkgs.perl
 
+  ] ++ pkgs.lib.optionals isDarwin [
     pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
   ];
 
