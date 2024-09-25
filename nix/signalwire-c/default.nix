@@ -13,10 +13,11 @@ pkgs.stdenv.mkDerivation rec {
     "-DCMAKE_C_FLAGS=-Wno-int-conversion"
   ];
 
-  buildInputs = [ 
+  nativeBuildInputs = [ 
     pkgs.cmake
     pkgs.pkg-config
     pkgs.openssl
+    pkgs.libuuid
     (pkgs.callPackage ../libks/default.nix { })
   ];
 

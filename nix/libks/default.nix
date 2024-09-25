@@ -12,23 +12,26 @@ pkgs.stdenv.mkDerivation rec {
   };
 
   patchPhase = ''
-    substituteInPlace cmake/FindLibM.cmake --replace "PATHS" "TEST_PATHS ${pkgs.libm}"
+    substituteInPlace cmake/FindLibM.cmake --replace "NO_DEFAULT_PATH" ""
   '';
 
   nativeBuildInputs = [ 
-    pkgs.buildPackages.cmake
+    pkgs.cmake
     pkgs.openssl
     pkgs.pkg-config
+
+  ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
     pkgs.libossp_uuid
-    pkgs.buildPackages.libm
+  ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
+    pkgs.libuuid
   ];
 
-  LIBM_ROOT = pkgs.libm;
-  LIBM_INCLUDE_DIRS= pkgs.libm;
+  buildInputs = [
+  ];
 
   cmakeFlags = [
-    "-DCMAKE_LIBM=${libm.out}"
     "-DCMAKE_C_FLAGS=-Wno-int-conversion"
-    "-DCMAKE_LIBM_INCLUDE_DIRS=${libm.out}"
+    #"-DCMAKE_C_FLAGS=-I${pkgs.libossp_uuid.out}/include"
+    "-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON"
   ];
 }

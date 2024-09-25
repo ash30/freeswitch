@@ -15,7 +15,6 @@ pkgs.stdenv.mkDerivation rec {
 
   patchPhase = ''
     substituteInPlace Makefile.am --replace "/usr" ""
-  '' ++ pkgs.lib.optionalString isDarwin ''
     substituteInPlace autogen.sh --replace "glibtoolize" "libtoolize"
   '';
 

@@ -1,5 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
-
+let
+isDarwin = pkgs.stdenv.isDarwin;
+in
 pkgs.stdenv.mkDerivation rec { 
   name = "spandsp";
   version = "3.0.9";
@@ -11,12 +13,13 @@ pkgs.stdenv.mkDerivation rec {
     sha256 = "0wmpi6gvznkrnvkpa3s1h44hcky09p38g27bdaipwgbb5svl9d1i";
   };
 
-  buildInputs = [ 
+  nativeBuildInputs = [ 
     pkgs.autoconf 
     pkgs.automake 
     pkgs.util-linux 
     pkgs.libtool 
     pkgs.libtiff
+    pkgs.which
   ];
 
   preConfigure = ''
@@ -24,9 +27,10 @@ pkgs.stdenv.mkDerivation rec {
   '';
 
   #CFLAGS="-g -ggdb --with-pic";
+
   patchPhase = ''
     substituteInPlace Makefile.am --replace "/usr" ""
-  '' ++ pkgs.lib.optionalString isDarwin ''
+  '' + pkgs.lib.optionalString isDarwin ''
     substituteInPlace autogen.sh --replace "glibtoolize" "libtoolize"
   '';
 }
