@@ -1,18 +1,27 @@
 { pkgs ? import <nixpkgs> {} }:
-
-pkgs.stdenv.mkDerivation rec { 
+let 
+  isDarwin = pkgs.stdenv.isDarwin;
+  stdenv = import ./nix/env.nix { inherit pkgs; };
+in
+stdenv.mkDerivation rec { 
   name = "freeswitch";
   version = "1.10.12";
 
   src = ./.;
   #dontUnpack = true;
 
+  #outputs = [ "lib" "headers" ];
+
   buildInputs = [ 
+    pkgs.ccls 
     pkgs.pkg-config
     pkgs.libtool
     pkgs.autoconf 
     pkgs.automake 
     pkgs.util-linux 
+    pkgs.git
+    pkgs.which
+    pkgs.jq
 
     # core
     pkgs.pcre
@@ -26,7 +35,6 @@ pkgs.stdenv.mkDerivation rec {
     (pkgs.callPackage ./nix/libks { })
     (pkgs.callPackage ./nix/sofia-sip { })
     (pkgs.callPackage ./nix/signalwire-c{ })
-
 
     # general
     pkgs.openssl
@@ -48,7 +56,9 @@ pkgs.stdenv.mkDerivation rec {
     pkgs.curl
     pkgs.ldns
     pkgs.python3
+    pkgs.perl
 
+  ] ++ pkgs.lib.optionals isDarwin [
     pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
   ];
 
