@@ -26,7 +26,6 @@ pkgs.stdenv.mkDerivation rec {
     pkgs.libtiff
     pkgs.openssl
   ] ++ pkgs.lib.optionals isDarwin [
-    pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
   ];
 
   configureFlags = [

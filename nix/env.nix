@@ -39,8 +39,8 @@ let
       }' > $OUTDB
   '';
   cc-hook = ''
-    echo "FOOBAR"
     echo ${cc-wrapper-hook}
+    echo ${pkgs.jq}
     echo $out
     ln -s ${cc-wrapper-hook}/bin/cc-wrapper-hook $out/nix-support/cc-wrapper-hook
   '';

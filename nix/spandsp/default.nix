@@ -19,6 +19,7 @@ pkgs.stdenv.mkDerivation rec {
     pkgs.util-linux 
     pkgs.libtool 
     pkgs.libtiff
+    pkgs.libjpeg
     pkgs.which
   ];
 

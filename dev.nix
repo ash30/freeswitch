@@ -1,16 +1,13 @@
-let pkgs = import (builtins.fetchTarball {
-  name = "nixpkgs-unstable";
-  url = "https://github.com/nixos/nixpkgs/archive/68c9ed8bbed9dfce253cc91560bf9043297ef2fe.tar.gz";
-  # Hash obtained using `nix-prefetch-url --unpack <url>`
-  sha256 = "1zwwji3nhn9zdmck2bllqjbswsr7r30q8fbggw8y1j2ymsvz29jg";
-}) { config.allowUnfree = true; };
-fs_drv = (pkgs.callPackage ./default.nix { inherit pkgs; });
+let pkgs = import (builtins.fetchTarball https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz)
+ { config.allowUnfree = true; };
+fs_drv = (pkgs.callPackage ./default.nix {});
 in
 pkgs.mkShell {
   inputsFrom = [ fs_drv ];
   buildInputs = [
     pkgs.ccls 
     pkgs.jq
+    pkgs.pjsip
   ];
 
   preConfigure = fs_drv.preConfigure;

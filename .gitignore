@@ -1,3 +1,5 @@
+*.ccdb
+compile_commands.json
 *~
 *.o
 *.so

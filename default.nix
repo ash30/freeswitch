@@ -1,7 +1,8 @@
 { pkgs ? import <nixpkgs> {} }:
 let 
   isDarwin = pkgs.stdenv.isDarwin;
-  stdenv = import ./nix/env.nix { inherit pkgs; };
+  #stdenv = import ./nix/env.nix { inherit pkgs; };
+  stdenv = pkgs.stdenv ;
 in
 stdenv.mkDerivation rec { 
   name = "freeswitch";
@@ -12,15 +13,19 @@ stdenv.mkDerivation rec {
 
   #outputs = [ "lib" "headers" ];
 
-  buildInputs = [ 
-    pkgs.ccls 
+  nativeBuildInputs = [
     pkgs.pkg-config
     pkgs.libtool
     pkgs.autoconf 
     pkgs.automake 
+    pkgs.jq
+    pkgs.which
+    pkgs.ccls 
     pkgs.util-linux 
     pkgs.git
-    pkgs.which
+  ];
+
+  buildInputs = [ 
     pkgs.jq
 
     # core
@@ -59,7 +64,6 @@ stdenv.mkDerivation rec {
     pkgs.perl
 
   ] ++ pkgs.lib.optionals isDarwin [
-    pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
   ];
 
   preConfigure = ''
