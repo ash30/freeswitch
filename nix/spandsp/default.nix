@@ -14,7 +14,7 @@ pkgs.stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ 
-    pkgs.keepBuildTree
+    #pkgs.keepBuildTree
     pkgs.autoconf 
     pkgs.automake 
     pkgs.util-linux 
