@@ -26,6 +26,7 @@ pkgs.stdenv.mkDerivation rec {
 
   preConfigure = ''
     #./bootstrap.sh
+    ls
     ./autogen.sh
   '';
 
