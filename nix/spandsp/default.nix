@@ -14,6 +14,7 @@ pkgs.stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ 
+    pkgs.keepBuildTree
     pkgs.autoconf 
     pkgs.automake 
     pkgs.util-linux 
@@ -24,7 +25,8 @@ pkgs.stdenv.mkDerivation rec {
   ];
 
   preConfigure = ''
-    ./bootstrap.sh
+    #./bootstrap.sh
+    ./autogen.sh
   '';
 
   #CFLAGS="-g -ggdb --with-pic";
