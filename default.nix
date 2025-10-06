@@ -67,8 +67,10 @@ stdenv.mkDerivation rec {
   ] ++ pkgs.lib.optionals isDarwin [
   ];
 
+  # Disable certain mods because we're mostly building for lib not app
   preConfigure = ''
     ./bootstrap.sh
+    sed -i '/applications\/mod_av/ s/^/# /' modules.conf
   '';
 
   configureFlags = [
