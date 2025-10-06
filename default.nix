@@ -62,6 +62,7 @@ stdenv.mkDerivation rec {
     pkgs.ldns
     pkgs.python3
     pkgs.perl
+    pkgs.pcre2 
 
   ] ++ pkgs.lib.optionals isDarwin [
   ];
