@@ -9,8 +9,8 @@ pkgs.stdenv.mkDerivation rec {
   src = pkgs.fetchFromGitHub {
     owner  = "freeswitch";
     repo   = "sofia-sip";
-    rev    = "0a50b8402fa5b6190a6c91c2e04dfe44a40de02c";
-    sha256 = "1scx413d0qsipbrf4m86vl4v76p87yg9srarp5g8r9ihh78f84kk";
+    rev    = "0106ad0e34a13485a4de79496589abf6949772dd";
+    sha256 = "sha256-rFgCXKKH8p67PaI6IXm2PyhZcM2mlyT+oeqTspvR5hc=";
   };
 
   patchPhase = ''
