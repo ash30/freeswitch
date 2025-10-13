@@ -13,6 +13,10 @@ stdenv.mkDerivation rec {
 
   #outputs = [ "lib" "headers" ];
 
+  propagatedBuildInputs = [
+    pkgs.openssl
+  ];
+
   nativeBuildInputs = [
     pkgs.pkg-config
     pkgs.libtool
@@ -20,7 +24,7 @@ stdenv.mkDerivation rec {
     pkgs.automake 
     pkgs.jq
     pkgs.which
-    pkgs.ccls 
+    #pkgs.ccls 
     pkgs.util-linux 
     pkgs.git
   ];
@@ -34,6 +38,7 @@ stdenv.mkDerivation rec {
     pkgs.nasm
     pkgs.yasm
     pkgs.libossp_uuid
+    pkgs.libuuid
 
     # private 
     (pkgs.callPackage ./nix/spandsp { })
@@ -42,7 +47,6 @@ stdenv.mkDerivation rec {
     (pkgs.callPackage ./nix/signalwire-c{ })
 
     # general
-    pkgs.openssl
     pkgs.zlib
 
     # core codecs
