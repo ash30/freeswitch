@@ -79,9 +79,10 @@ stdenv.mkDerivation rec {
 
   configureFlags = [
     "--disable-libvpx"
+    "--enable-debug"
   ];
 
-  #CFLAGS="-g -ggdb --with-pic";
+  CFLAGS="-g -ggdb -O0";
 
   patchPhase = ''
     substituteInPlace Makefile.am --replace "/usr" ""
